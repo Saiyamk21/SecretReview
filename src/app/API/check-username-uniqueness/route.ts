@@ -8,6 +8,7 @@ const usernameQuerySchema=z.object({
 })
 
 export async function GET(request:Request){
+
     await dbConnect();
     try {
         //localhost:100/aos?username=saiyam?phone=aa
