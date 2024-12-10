@@ -24,7 +24,7 @@ const dashboard = () => {
   const handleDeleteMessage=(messageId:string)=>{
     setMessages(messages.filter((message)=> message._id!==messageId));
   }
-  const {data:session}=useSession();
+  const {data:session,status}=useSession();
   const form=useForm({
     resolver:zodResolver(acceptMessageSchema)
   });
@@ -107,7 +107,17 @@ const dashboard = () => {
     }
   }
 
-  const {username}=session?.user as User
+if (status === "loading") {
+  return <div>Loading...</div>;
+}
+
+if (status === "unauthenticated") {
+  return <div>Please login first</div>;
+}
+
+// Continue if the session is available
+console.log(session);
+const { username } = session?.user as User;
   const baseUrl=`${window.location.protocol} // ${window.location.host} `
   const profileUrl=`${baseUrl}/u/${username}`;
 

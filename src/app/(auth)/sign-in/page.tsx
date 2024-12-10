@@ -60,6 +60,7 @@ const page = () => {
           });
       }
     }
+    console.log(result);
     if (result?.url) {
       router.replace("/dashboard");
     }

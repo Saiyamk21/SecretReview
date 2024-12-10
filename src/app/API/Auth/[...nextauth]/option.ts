@@ -15,6 +15,7 @@ export const authOptions:NextAuthOptions ={
             password:{label:"Passsword",type:"password"}
         },
         async authorize(credentials:any):Promise<any>{
+            console.log(credentials);
             await dbConnect();
             try{
                 const user=await userModel.findOne({
@@ -30,6 +31,7 @@ export const authOptions:NextAuthOptions ={
                     throw new Error("user is not verified.Pleaase verify your account");                    
                 }
                 const isPasswordCorrect=await bcrypt.compare(credentials.password,user.password);
+                // console.log('kss');
                 if(isPasswordCorrect){
                     return user;
                 }else{
@@ -44,7 +46,6 @@ export const authOptions:NextAuthOptions ={
     ],
     callbacks: {
         async jwt({ token, user }) {
-           // Check if the user object exists (only on sign-in)
           if (user) {
             token._id = user._id?.toString();
             token.isVerified = user.isVerified;
